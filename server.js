@@ -18,6 +18,15 @@ app.post('/delete_cosmonaut', (req, res) => {
     });
 });
 
+app.post('/add_cosmonaut', (req, res) => {
+    let data = JSON.parse(fs.readFileSync('kosmonauti.json', 'utf8'));
+    data.push(req.body);
+    fs.writeFile('kosmonauti.json', JSON.stringify(data), 'utf8', () => {
+        console.log('Cosmonaut added successfuly!');
+        res.send({ msg: `Cosmonaut ${req.body.firstname} ${req.body.lastname} deleted successfuly!`});
+    });
+});
+
 app.get('/change_cosmonauts', (req, res) => {
     res.send({ msg:'Cosmonauts changed successfully' });
 })

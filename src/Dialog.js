@@ -24,9 +24,16 @@ function Dialog(props) {
     return (
         <div>
             {props.isOpen? 
-            <div style={style}>
-                Hello
-                <button onClick={props.onClose}>Zavřít</button>
+            <div style={style} id='popupDialog'>
+                Zadejte informace o kosmonautovi:<br />
+                <input type='text' id='firstname' placeholder="Jméno..." />
+                <input type='text' id='lastname' placeholder="Příjmení..." />
+                <input type='date' id='dateOfBirth' />
+                <input type='text' id='superpower' placeholder="Superschopnost..." />
+                <div>
+                    <button onClick={props.handleAddCosmonaut}>Poslat</button>
+                    <button onClick={props.onClose}>Zavřít</button>
+                </div>
             </div> 
             : null}
         </div>

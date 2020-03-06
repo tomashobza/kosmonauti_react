@@ -16,32 +16,58 @@ function App() {
     setCosmonauts(data);
   };
 
-  const deleteCosmonaut = (id) => {
+  const deleteCosmonaut = async (id) => {
+    try {
+      const res = await fetch(`http://${window.location.hostname}:8000/delete_cosmonaut`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      getCosmonauts(); 
+    } catch (err) {
+      throw err;
+    }
+  };
 
-    fetch(`http://${window.location.hostname}:8000/delete_cosmonaut`, {
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id }),
-    })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      getCosmonauts();
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });         
+  const addCosmonaut = async () => {
+    let data = {};
+    let ready = true;
+    [...document.querySelectorAll('#popupDialog input')].forEach((e) => {
+      if (e.value) {
+        e.classList.remove('valueIncorrect');
+        data[e.id]=e.value;
+      } else {
+        ready = false;
+        e.classList.add('valueIncorrect');
+      }
+    });
+    if (ready) {
+      try {
+        const res = await fetch(`http://${window.location.hostname}:8000/add_cosmonaut`, {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const resData = await res.json();
+        console.log(resData);
+        setOpen(!isOpen)
+        getCosmonauts(); 
+      } catch (err) {
+        throw err;
+      }
+    }
   };
 
 
   return (
     <div >
       <button onClick={() => setOpen(!isOpen)}>Přidat kosmonauta</button>
-      <Dialog isOpen={isOpen} onClose={() => setOpen(!isOpen)}/>
+      <Dialog isOpen={isOpen} onClose={() => setOpen(!isOpen)} handleAddCosmonaut={() => addCosmonaut()}/>
       <table>
         <tbody>
           <tr>
