@@ -27,8 +27,4 @@ app.post('/add_cosmonaut', (req, res) => {
     });
 });
 
-app.get('/change_cosmonauts', (req, res) => {
-    res.send({ msg:'Cosmonauts changed successfully' });
-})
-
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -55,7 +55,7 @@ function App() {
         });
         const resData = await res.json();
         console.log(resData);
-        setOpen(!isOpen)
+        setOpen(!isOpen);
         getCosmonauts(); 
       } catch (err) {
         throw err;
